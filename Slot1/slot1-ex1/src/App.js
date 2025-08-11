@@ -1,7 +1,7 @@
 import React from 'react';
 
 function App() {
-  const myName = "Mai Ngân"; // Thay "Your Name" bằng tên của bạn
+  const myName = "Mai Ngân"; 
 
   return (
     <div className="App">

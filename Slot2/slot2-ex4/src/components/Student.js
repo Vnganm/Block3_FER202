@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class Student {
+class StudentClass {
   constructor(name, age, grade) {
     this.name = name;
     this.age = age;
@@ -14,31 +14,24 @@ class Student {
   study() {
     return `${this.name} is studying in grade ${this.grade}.`;
   }
-
-  getStudentInfo() {
-    return (
-      <div style={{
-        padding: '15px',
-        margin: '10px 0',
-        border: '1px solid #ddd',
-        borderRadius: '5px',
-        backgroundColor: '#f9f9f9'
-      }}>
-        <h3>Student Information</h3>
-        <p><strong>Name:</strong> {this.name}</p>
-        <p><strong>Age:</strong> {this.age}</p>
-        <p><strong>Grade:</strong> {this.grade}</p>
-        <p><em>{this.greet()}</em></p>
-        <p><em>{this.study()}</em></p>
-      </div>
-    );
-  }
 }
 
-// Component để hiển thị thông tin Student
 const StudentComponent = () => {
-  const student1 = new Student("Alice", 18, 12);
-  const student2 = new Student("Bob", 17, 11);
+  const [counter, setCounter] = useState(0);
+  
+  const student1 = new StudentClass("Alice", 18, 12);
+  const student2 = new StudentClass("Bob", 17, 11);
+
+  const createCounter = () => {
+    let count = 0;
+    return () => {
+      count++;
+      setCounter(count);
+      return count;
+    };
+  };
+
+  const counterInstance = createCounter();
 
   return (
     <div style={{ 
@@ -48,8 +41,39 @@ const StudentComponent = () => {
       borderRadius: '5px'
     }}>
       <h2 style={{ color: '#333' }}>Student Class Implementation</h2>
-      {student1.getStudentInfo()}
-      {student2.getStudentInfo()}
+      
+      <div style={{ marginBottom: '15px' }}>
+        <h3>Student 1</h3>
+        <p>{student1.greet()}</p>
+        <p>{student1.study()}</p>
+      </div>
+      
+      <div style={{ marginBottom: '15px' }}>
+        <h3>Student 2</h3>
+        <p>{student2.greet()}</p>
+        <p>{student2.study()}</p>
+      </div>
+      
+      <div>
+        <h3>Counter Example</h3>
+        <button 
+          onClick={() => {
+            const newCount = counterInstance();
+            console.log(`Counter value: ${newCount}`);
+          }}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Increment Counter
+        </button>
+        <p>Counter value (check console): {counter}</p>
+      </div>
     </div>
   );
 };

@@ -5,7 +5,6 @@ import CourseList from './components/CourseList';
 import CompanyList from './components/CompanyList';
 import PersonComponent from './components/Person';
 import StudentComponent from './components/Student';
-
 import './styles.css';
 
 const App = () => {
@@ -28,7 +27,7 @@ const App = () => {
   const sum = array.reduce((accumulator, current) => accumulator + current, 0);
   const product = array.reduce((acc, curr) => acc * curr, 1);
 
-  // 3. Xử lý companies, ages và person
+  // 3. Xử lý ages và person
   const ages = [33, 12, 20, 16, 5, 54, 21, 44, 61, 13, 15, 45, 25, 64, 32];
   const person = {
     name: "Costas",
@@ -54,12 +53,6 @@ const App = () => {
     }, []);
   };
 
-  // 6. Hàm đếm tăng dần
-  const createCounter = () => {
-    let count = 0;
-    return () => count++;
-  };
-
   // 7. Promise
   const randomNumberPromise = new Promise((resolve, reject) => {
     const randomNum = Math.floor(Math.random() * 10) + 1;
@@ -71,8 +64,8 @@ const App = () => {
   });
 
   randomNumberPromise
-    .then(num => console.log(`Success: ${num}`))
-    .catch(err => console.error(err));
+    .then(num => console.log(`Promise resolved: ${num}`))
+    .catch(err => console.error(`Promise rejected: ${err}`));
 
   return (
     <div className="App">
@@ -83,6 +76,7 @@ const App = () => {
         <CompanyList />
         <PersonComponent />
         <StudentComponent />
+
         {/* Hiển thị kết quả xử lý mảng people */}
         <div className="result-box">
           <h2>People Array Results</h2>
