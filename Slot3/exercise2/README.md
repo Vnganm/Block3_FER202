@@ -1,70 +1,226 @@
-# Getting Started with Create React App
+Exercise 2
+PersonList.js
+ 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+import React, { useState } from 'react';
+import { persons } from '../persons';
+import { Button, ListGroup } from 'react-bootstrap';
 
-## Available Scripts
+const PersonList = () => {
+  const [sortedPersons, setSortedPersons] = useState([...persons]); // Sao chép mảng ban đầu
+  const [sortAsc, setSortAsc] = useState(true);
 
-In the project directory, you can run:
+  const handleSort = () => {
+    const sorted = [...sortedPersons].sort((a, b) => {
+      const compareResult = a.firstName.localeCompare(b.firstName);
+      return sortAsc ? compareResult : -compareResult; // Đảo ngược bằng cách nhân -1
+    });
+    setSortedPersons(sorted);
+    setSortAsc(!sortAsc);
+  };
 
-### `npm start`
+  return (
+    <div>
+      <Button variant="primary" onClick={handleSort} className="mb-3">
+        Sort First Name: {sortAsc ? 'A→Z' : 'Z→A'}
+      </Button>
+      <ListGroup>
+        {sortedPersons.map(p => (
+          <ListGroup.Item key={p.id}>
+            {`${p.firstName} ${p.lastName}, Age: ${p.age}, City: ${p.city}, Skills: ${p.skills.join(', ')}`}
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    </div>
+  );
+};
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+export default PersonList;
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+FilterPersons.js
+ 
+import React, { useState } from 'react';
+import { persons } from '../persons';
+import { Form, Button, ListGroup } from 'react-bootstrap';
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+const FilterPersons = () => {
+  const [minAge, setMinAge] = useState('');
+  const [maxAge, setMaxAge] = useState('');
+  const [selectedSkill, setSelectedSkill] = useState('');
+  const [filtered, setFiltered] = useState([]);
 
-### `npm run build`
+  const skills = persons.reduce((acc, { skills }) => [...acc, ...skills], []).filter((v, i, a) => a.indexOf(v) === i);
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  const handleFilter = () => {
+    const result = persons.filter(({ age, skills }) => {
+      const inAge = (!minAge || age >= +minAge) && (!maxAge || age <= +maxAge);
+      const hasSkill = !selectedSkill || skills.includes(selectedSkill);
+      return inAge && hasSkill;
+    });
+    setFiltered(result);
+  };
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  return (
+    <div>
+      <Form className="mb-3">
+        <Form.Group className="mb-2">
+          <Form.Control
+            type="number"
+            placeholder="Min Age"
+            value={minAge}
+            onChange={e => setMinAge(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-2">
+          <Form.Control
+            type="number"
+            placeholder="Max Age"
+            value={maxAge}
+            onChange={e => setMaxAge(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-2">
+          <Form.Select value={selectedSkill} onChange={e => setSelectedSkill(e.target.value)}>
+            <option value="">All Skills</option>
+            {skills.map(s => <option key={s} value={s}>{s}</option>)}
+          </Form.Select>
+        </Form.Group>
+        <Button variant="primary" onClick={handleFilter}>
+          Filter
+        </Button>
+      </Form>
+      {filtered.length ? (
+        <ListGroup>
+          {filtered.map(({ firstName, lastName, skills }) => (
+            <ListGroup.Item key={firstName}>{`${firstName} - ${lastName} - ${skills.join(', ')}`}</ListGroup.Item>
+          ))}
+        </ListGroup>
+      ) : <p className="text-center text-muted">No found.</p>}
+    </div>
+  );
+};
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default FilterPersons;
+SkillRanking.js
+ 
+import React from 'react';
+import { persons } from '../persons';
+import { Table } from 'react-bootstrap';
 
-### `npm run eject`
+const SkillRanking = () => {
+  const skillCounts = persons.reduce((acc, { skills }) => {
+    skills.forEach(s => acc[s] = (acc[s] || 0) + 1);
+    return acc;
+  }, {});
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  const sortedSkills = Object.entries(skillCounts).sort(([,a], [,b]) => b - a);
+  const maxCount = sortedSkills[0]?.[1] || 0;
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  return (
+    <Table striped bordered hover>
+      <thead>
+        <tr>
+          <th>Skill</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedSkills.map(([skill, count]) => (
+          <tr key={skill}>
+            <td style={{ fontWeight: count === maxCount ? 'bold' : 'normal' }}>{skill}</td>
+            <td>{count}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
+};
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+export default SkillRanking;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+SearchPersons.js
+ 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+import React, { useState, useEffect } from 'react';
+import { persons } from '../persons';
+import { Form, ListGroup, Card } from 'react-bootstrap';
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+const SearchPersons = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [displayed, setDisplayed] = useState(persons);
 
-### Code Splitting
+  useEffect(() => {
+    let filtered = persons.filter(p => `${p.firstName} ${p.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()));
+    filtered.sort((a, b) => {
+      if (a.isActive !== b.isActive) return b.isActive - a.isActive ? 1 : -1;
+      if (a.age !== b.age) return a.age - b.age;
+      return a.lastName.localeCompare(b.lastName);
+    });
+    setDisplayed(filtered);
+  }, [searchTerm]);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  const stats = displayed.reduce((acc, { age, isActive }) => {
+    acc.total++;
+    acc.sumAge += age;
+    if (isActive) acc.active++;
+    return acc;
+  }, { total: 0, sumAge: 0, active: 0 });
+  const avgAge = stats.total ? (stats.sumAge / stats.total).toFixed(2) : 0;
 
-### Analyzing the Bundle Size
+  return (
+    <div>
+      <Form.Group className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+      </Form.Group>
+      <ListGroup>
+        {displayed.map(p => (
+          <ListGroup.Item key={p.id}>{`${p.firstName} ${p.lastName}, Age: ${p.age}, City: ${p.city}, Skills: ${p.skills.join(', ')}`}</ListGroup.Item>
+        ))}
+      </ListGroup>
+      <Card className="mt-3 p-2">
+        <Card.Text>Statistics: Total: {stats.total}, Avg Age: {avgAge}, Active: {stats.active}</Card.Text>
+      </Card>
+    </div>
+  );
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+export default SearchPersons;
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+App.js
+import React from 'react';
+import PersonList from './components/PersonList';
+import FilterPersons from './components/FilterPersons';
+import SkillRanking from './components/SkillRanking';
+import SearchPersons from './components/SearchPersons';
+import { Container } from 'react-bootstrap';
 
-### Advanced Configuration
+function App() {
+  return (
+    <Container className="my-4">
+      <h1 className="mb-4">Bài tập React</h1>
+      <h2>Yêu cầu 1</h2>
+      <PersonList />
+      <hr />
+      <h2>Yêu cầu 2</h2>
+      <FilterPersons />
+      <hr />
+      <h2>Yêu cầu 3</h2>
+      <SkillRanking />
+      <hr />
+      <h2>Yêu cầu 4</h2>
+      <SearchPersons />
+    </Container>
+  );
+}
+export default App;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
