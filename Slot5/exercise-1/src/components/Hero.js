@@ -1,8 +1,7 @@
 import React from 'react';
 
-const Hero = () => (
+const Hero = () => (  
   <div className="text-center py-5" style={{ 
-    backgroundColor: '#F5F6F2', 
     padding: '30px 20px', 
     borderRadius: '10px'
   }}>
