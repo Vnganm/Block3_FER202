@@ -7,6 +7,7 @@ import RecipeGrid from './components/RecipeGrid';
 import Footer from './components/Footer';
 import RequestForm from './components/RequestForm';
 import Cart from './components/Cart';
+import RecipeCarousel from './components/Carousel'; 
 import recipes from './recipes';
 
 function App() {
@@ -46,13 +47,11 @@ function App() {
 
   const handleViewRecipe = (recipe) => setSelectedRecipe(recipe);
   const handleCloseModal = () => setSelectedRecipe(null);
-
-  
   const handleShowForm = () => setShowForm(true);
   const handleCloseForm = () => setShowForm(false);
   const handleAddToCart = (recipe) => {
     setCart([...cart, { ...recipe, quantity: 1 }]);
-    setShowToast(true); // Chỉ hiển thị Toast
+    setShowToast(true);
     setTimeout(() => setShowToast(false), 5000);
     handleCloseModal();
   };
@@ -61,11 +60,16 @@ function App() {
 
   return (
     <div style={{ backgroundColor: '#F5F6F2', minHeight: '100vh' }}>
+
       <NavbarComponent onShowForm={handleShowForm} cartCount={cart.length} onShowCart={handleShowCart} />
+      
       <Container>
+        <RecipeCarousel /> 
         <Hero />
         <Filters onFilter={handleFilter} />
+        
         <RecipeGrid recipes={sortedRecipes} onView={handleViewRecipe} onAddToCart={handleAddToCart} />
+
         <Modal show={showForm} onHide={handleCloseForm} centered>
           <Modal.Header closeButton style={{ backgroundColor: '#F5F6F2' }}>
             <Modal.Title>Recipe Request Form</Modal.Title>
@@ -74,6 +78,7 @@ function App() {
             <RequestForm />
           </Modal.Body>
         </Modal>
+
         <Modal show={!!selectedRecipe} onHide={handleCloseModal} centered>
           <Modal.Header closeButton style={{ backgroundColor: '#F5F6F2', borderBottom: 'none', padding: '10px' }}>
             <Modal.Title style={{ fontSize: '1.5rem', fontWeight: '600' }}>{selectedRecipe?.title}</Modal.Title>
@@ -94,12 +99,16 @@ function App() {
             <Button variant="custom" onClick={() => handleAddToCart(selectedRecipe)} style={{ backgroundColor: '#203933', color: 'white', borderColor: '#203933', padding: '5px 15px', fontSize: '0.9rem' }}>Add to Cart</Button>
           </Modal.Footer>
         </Modal>
+
+
         <Modal show={showCartModal} onHide={handleCloseCartModal} centered size="lg">
           <Cart cart={cart} setCart={setCart} onClose={handleCloseCartModal} />
         </Modal>
+
         <Toast show={showToast} onClose={() => setShowToast(false)} delay={5000} autohide style={{ position: 'fixed', top: '20px', right: '20px' }}>
           <Toast.Body>Added to cart</Toast.Body>
         </Toast>
+
       </Container>
       <Footer />
     </div>

@@ -3,7 +3,7 @@ import { Navbar, Nav, Button, Container, Badge } from 'react-bootstrap';
 import { FaShoppingCart } from 'react-icons/fa';
 
 const NavbarComponent = ({ onShowForm, cartCount, onShowCart }) => (
-  <Navbar bg="light" expand="lg" className="mb-4" style={{ backgroundColor: '#F5F6F2' }}>
+  <Navbar bg="light" expand="lg"  style={{ backgroundColor: '#F5F6F2' }}>
     <Container fluid>
       <Navbar.Brand href="#home" className="d-flex align-items-center fw-bold">
         <img src="/logo.png" alt="Logo" style={{ width: '45px', height: '45px', marginRight: '10px' }} />
@@ -25,6 +25,7 @@ const NavbarComponent = ({ onShowForm, cartCount, onShowCart }) => (
           >
             <FaShoppingCart size={24} />
             {cartCount > 0 && <Badge bg="danger" style={{ marginLeft: '5px' }}>{cartCount}</Badge>}
+            
           </Button>
           <Button variant="custom" style={{ backgroundColor: '#203933', color: 'white', borderColor: '#203933', borderRadius: '25px', marginLeft: '10px' }}>Browse Recipes</Button>
         </div>

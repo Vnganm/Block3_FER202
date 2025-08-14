@@ -4,8 +4,10 @@ import { FaUtensils, FaClock, FaFire } from 'react-icons/fa';
 
 const RecipeCard = ({ recipe, onView }) => {
   const [showToast, setShowToast] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const handleFavourite = () => {
+    setIsFavorited(!isFavorited); // Toggle trạng thái
     setShowToast(true);
     setTimeout(() => setShowToast(false), 5000);
   };
@@ -59,12 +61,17 @@ const RecipeCard = ({ recipe, onView }) => {
           View Recipe
         </Button>
         <Button 
-          variant="light" 
+          variant={isFavorited ? "danger" : "light"} 
           onClick={handleFavourite} 
           className="mt-2" 
-          style={{ width: '100%', borderRadius: '26px' }}
+          style={{ 
+            width: '100%', 
+            borderRadius: '26px',
+            borderColor: isFavorited ? '#dc3545' : '#203933',
+            color: isFavorited ? 'white' : '#203933'
+          }}
         >
-          ♡ Add to Favourite
+          {isFavorited ? '♥ Remove from Favourite' : '♡ Add to Favourite'}
         </Button>
         <Toast 
           show={showToast} 
@@ -73,7 +80,7 @@ const RecipeCard = ({ recipe, onView }) => {
           autohide 
           style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}
         >
-          <Toast.Body>Added to favourites</Toast.Body>
+          <Toast.Body>{isFavorited ? 'Added to favourites' : 'Removed from favourites'}</Toast.Body>
         </Toast>
       </Card.Body>
     </Card>
