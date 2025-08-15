@@ -175,7 +175,7 @@ const AdvancedForm = ({ onSubmit, title }) => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button className="mt-2" variant="primary" type="submit">
                     Gửi
                 </Button>
             </Form>

@@ -83,7 +83,7 @@ const UserProfile2 = ({ name, age, onSubmit }) => {
                 </Form.Group>
 
                 {/* Nút submit */}
-                <Button variant="primary" type="submit">
+                <Button className="mt-4" variant="primary" type="submit">
                     Gửi
                 </Button>
             </Form>

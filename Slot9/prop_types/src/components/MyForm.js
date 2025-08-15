@@ -112,7 +112,7 @@ const MyForm = ({ title, onSubmit }) => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button className="mt-3" variant="primary" type="submit">
                     Submit
                 </Button>
             </Form>
