@@ -1,0 +1,21 @@
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.min-vh-80 {
+  min-height: 80vh;
+}
+
+/* Hiệu ứng hover cho card */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-brand span {
+    display: none;
+  }
+}
