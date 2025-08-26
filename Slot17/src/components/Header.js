@@ -20,7 +20,7 @@ export default function Header({ dark, onToggleTheme }) {
           <Button 
             variant={dark ? "outline-light" : "outline-dark"} 
             onClick={onToggleTheme}
-            size="sm"
+            size="md"
           >
             {dark ? "☀️ Light" : "🌙 Dark"}
           </Button>

@@ -26,23 +26,20 @@ const dishes = [
 ];
 
 export default function App() {
-  // 1. Tạo state để theo dõi chế độ dark mode
   const [dark, setDark] = useState(false);
   
-  // 2. Tạo hàm để chuyển đổi giữa light và dark mode
   const toggleTheme = () => {
     setDark(prevDark => !prevDark);
   };
   
-  // 3. Sử dụng useMemo để tạo class conditionally
   const rootClass = useMemo(() => (dark ? "app dark" : "app"), [dark]);
 
   return (
     <CartProvider>
       <BrowserRouter>
-        {/* 4. Thêm data-bs-theme để Bootstrap nhận biết theme */}
+
         <div className={rootClass} data-bs-theme={dark ? "dark" : "light"}>
-          {/* 5. Truyền state và hàm xuống các component cần thiết */}
+
           <Header dark={dark} onToggleTheme={toggleTheme} />
           
           <main className="content">

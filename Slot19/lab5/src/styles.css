@@ -1,0 +1,268 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* Màu nền sáng mặc định */
+  color: #212529; /* Màu chữ tối mặc định */
+  transition: all 0.3s ease;
+}
+
+.app {
+  min-height: 100vh;
+  width: 100%;
+  background-color: inherit;
+  color: inherit;
+}
+
+.content {
+  padding: 20px;
+  width: 100%;
+}
+
+/* Dark mode styles */
+.dark, .dark .container {
+  background-color: #1a1a1a !important; /* Màu đen hơi sáng */
+  color: #f8f9fa !important; /* Màu chữ sáng */
+}
+
+/* Light mode styles */
+.light, .light .container {
+  background-color: #ffffff !important; /* Màu trắng */
+  color: #212529 !important; /* Màu chữ tối */
+}
+
+/* Card styles */
+.card.dark-card {
+  background-color: #2d2d2d !important; /* Màu xám đậm cho dark mode */
+  border-color: #444 !important;
+  color: #f8f9fa !important;
+}
+
+.card.light-card {
+  background-color: #ffffff !important;
+  border-color: #dee2e6 !important;
+  color: #212529 !important;
+}
+
+.card.dark-card .text-muted {
+  color: #adb5bd !important; /* Màu chữ mờ trong dark mode */
+}
+
+.card.light-card .text-muted {
+  color: #6c757d !important; /* Màu chữ mờ trong light mode */
+}
+
+/* Form controls */
+.form-control.dark {
+  background-color: #2d2d2d !important;
+  color: #f8f9fa !important;
+  border-color: #444 !important;
+}
+
+.form-control.dark::placeholder {
+  color: #adb5bd !important;
+}
+
+.form-control.light {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border-color: #ced4da !important;
+}
+
+/* Buttons */
+.btn.dark {
+  background-color: #444 !important;
+  color: #f8f9fa !important;
+  border-color: #444 !important;
+}
+
+.btn.light {
+  background-color: #f8f9fa !important;
+  color: #212529 !important;
+  border-color: #ced4da !important;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+/* Carousel */
+.carousel-item img {
+  object-fit: cover;
+  height: 400px;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.carousel-dark .carousel-control-next-icon, 
+.carousel-dark .carousel-control-prev-icon {
+  filter: invert(1) grayscale(100);
+}
+
+/* Dish card */
+.dish-card {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+/* Toast notifications */
+.toast.dark {
+  background-color: #2d2d2d !important;
+  color: #f8f9fa !important;
+  border: 1px solid #444 !important;
+}
+
+.toast.light {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border: 1px solid #dee2e6 !important;
+}
+
+.toast-header.dark {
+  background-color: #444 !important;
+  color: #f8f9fa !important;
+  border-bottom: 1px solid #555 !important;
+}
+
+.toast-header.light {
+  background-color: #f8f9fa !important;
+  color: #212529 !important;
+  border-bottom: 1px solid #dee2e6 !important;
+}
+
+/* Badges */
+.badge.bg-warning {
+  color: #000 !important; /* Đảm bảo chữ vẫn đọc được trên nền vàng */
+}
+
+/* Text colors for both modes */
+.text-dark-mode {
+  color: #f8f9fa !important;
+}
+
+.text-light-mode {
+  color: #212529 !important;
+}
+
+/* Background colors for both modes */
+.bg-dark-mode {
+  background-color: #1a1a1a !important;
+}
+
+.bg-light-mode {
+  background-color: #ffffff !important;
+}
+
+
+/* Additional styles for Profile component */
+.bg-dark-card {
+  background-color: #2d2d2d !important;
+  border: 1px solid #444 !important;
+}
+
+.bg-dark-mode {
+  background-color: #1a1a1a !important;
+}
+
+.text-muted-dark {
+  color: #adb5bd !important;
+}
+
+.border-dark {
+  border: 1px solid #d1d1d1 !important;
+}
+
+.border-secondary {
+  border: 1px solid #444 !important;
+}
+
+.shadow {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+
+/* Additional styles for Register component */
+.form-control-dark {
+  background-color: #2d2d2d !important;
+  color: #f8f9fa !important;
+  border-color: #444 !important;
+}
+
+.form-control-dark:focus {
+  background-color: #2d2d2d !important;
+  color: #f8f9fa !important;
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.form-control-light {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border-color: #ced4da !important;
+}
+
+.form-control-light:focus {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border-color: #86b7fe !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Custom styles for form labels and text */
+.form-label {
+  font-weight: 500;
+}
+
+/* Custom styles for radio buttons in dark mode */
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+/* Style for links in dark mode */
+.text-info {
+  color: #5bc0de !important;
+}
+
+.text-info:hover {
+  color: #31b0d5 !important;
+}
+
+
+/* Form control styles for dark/light mode */
+.form-control-dark {
+  background-color: #2d2d2d !important;
+  color: #f8f9fa !important;
+  border-color: #444 !important;
+}
+
+.form-control-dark:focus {
+  background-color: #2d2d2d !important;
+  color: #f8f9fa !important;
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.form-control-light {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border-color: #ced4da !important;
+}
+
+.form-control-light:focus {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border-color: #86b7fe !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+
+

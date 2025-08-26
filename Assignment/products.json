@@ -1,0 +1,141 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Áo Thun Gucci Logo",
+      "description": "Áo thun cao cấp in logo Gucci, cotton 100%",
+      "price": "5000000",
+      "currentPrice": "4500000",
+      "image": "/images/anh1.jpg",
+      "quantity": 10
+    },
+    {
+      "id": "2",
+      "name": "Quần Jeans Levi's 501",
+      "description": "Quần jeans slim fit, chất liệu denim bền bỉ",
+      "price": "2000000",
+      "currentPrice": "1800000",
+      "image": "/images/anh2.png",
+      "quantity": 10
+    },
+    {
+      "id": "3",
+      "name": "Balo Louis Vuitton Monogram",
+      "description": "Balo da cao cấp với họa tiết monogram",
+      "price": "15000000",
+      "currentPrice": "14000000",
+      "image": "/images/anh3.jpg",
+      "quantity": 9
+    },
+    {
+      "id": "4",
+      "name": "Áo Khoác Nike Sportswear",
+      "description": "Áo khoác thể thao, chống gió, logo Nike",
+      "price": "3000000",
+      "currentPrice": "2500000",
+      "image": "/images/anh4.png",
+      "quantity": 15
+    },
+    {
+      "id": "5",
+      "name": "Quần Short Adidas Originals",
+      "description": "Quần short thoải mái, chất liệu cotton",
+      "price": "1500000",
+      "currentPrice": "1200000",
+      "image": "/images/anh5.jpg",
+      "quantity": 8
+    },
+    {
+      "id": "6",
+      "name": "Balo Herschel Classic",
+      "description": "Balo đơn giản, dung lượng lớn, màu đen",
+      "price": "1000000",
+      "currentPrice": "900000",
+      "image": "/images/anh6.png",
+      "quantity": 8
+    },
+    {
+      "id": "7",
+      "name": "Áo Polo Ralph Lauren",
+      "description": "Áo polo cổ điển, cotton pique",
+      "price": "4000000",
+      "currentPrice": "3500000",
+      "image": "/images/anh7.jpg",
+      "quantity": 10
+    },
+    {
+      "id": "8",
+      "name": "Quần Jogger Puma Essentials",
+      "description": "Quần jogger thoải mái, logo Puma",
+      "price": "1800000",
+      "currentPrice": "1500000",
+      "image": "/images/anh8.jpg",
+      "quantity": 18
+    },
+    {
+      "id": "9",
+      "name": "Balo Prada Nylon",
+      "description": "Balo nylon cao cấp, thiết kế tối giản",
+      "price": "12000000",
+      "currentPrice": "11000000",
+      "image": "/images/anh9.png",
+      "quantity": 6
+    },
+    {
+      "id": "1753470863097",
+      "name": "UNIQLO LOGO Sweatshirt",
+      "description": "A faithful reproduction of the sweatshirts distributed to staff when the company was first founded, in honor of UNIQLO's 40th anniversary.",
+      "price": "1500000",
+      "currentPrice": "785000",
+      "image": "/images/anh11.jpg",
+      "quantity": 12
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "admin",
+      "role": "admin",
+      "wishlist": []
+    },
+    {
+      "id": "2",
+      "username": "user",
+      "email": "user@example.com",
+      "password": "user",
+      "role": "user",
+      "wishlist": [
+        "1",
+        "1753470863097"
+      ]
+    },
+    {
+      "id": "1753475889601",
+      "username": "nganv",
+      "email": "nganv@example.com",
+      "password": "123456",
+      "role": "user",
+      "wishlist": [],
+      "avatar": null,
+      "secretQuestion": "pet",
+      "secretAnswer": "Milo"
+    }
+  ],
+  "carts": [
+    {
+      "id": "173e",
+      "productId": "1",
+      "quantity": 1,
+      "userId": "2"
+    },
+    {
+      "id": "1a01",
+      "productId": "3",
+      "quantity": 1,
+      "userId": "2"
+    }
+  ],
+  "orders": []
+}

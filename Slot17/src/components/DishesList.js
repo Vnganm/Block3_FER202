@@ -27,6 +27,7 @@ const DishesList = ({ dishes, dark }) => {
           placeholder="Tìm theo tên hoặc mô tả…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          style={{ borderRadius: "8px" }}
         />
       </Form.Group>
 
@@ -38,7 +39,7 @@ const DishesList = ({ dishes, dark }) => {
         <Row>
           {filtered.map((dish) => (
             <Col key={dish.id} md={6} lg={3} className="mb-4">
-              {/* Thêm bg và text props để hỗ trợ dark mode */}
+
               <Card 
                 className="h-100 dish-card text-center" 
                 bg={dark ? "dark" : "light"}
@@ -48,7 +49,7 @@ const DishesList = ({ dishes, dark }) => {
                   variant="top" 
                   src={dish.image} 
                   alt={dish.name}
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{ height: "180px", objectFit: "cover" }}
                 />
                 <Card.Body className="d-flex flex-column">
                   <Card.Title>{dish.name}</Card.Title>
@@ -62,11 +63,13 @@ const DishesList = ({ dishes, dark }) => {
                     variant="success" 
                     onClick={() => addToCart(dish)}
                     className="mt-auto"
+                    style={{ borderRadius: "16px" }}
                   >
                     Thêm vào giỏ hàng
                   </Button>
                 </Card.Body>
               </Card>
+
             </Col>
           ))}
         </Row>
