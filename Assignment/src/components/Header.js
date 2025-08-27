@@ -32,7 +32,6 @@ const Header = () => {
               <>
                 {/* Debug: Hiển thị role */}
                 <Nav.Link className="px-3 text-warning">
-                  Role: {user.role || 'Không có role'}
                 </Nav.Link>
                 <Nav.Link as={Link} to="/my-account" className="px-3">My Account</Nav.Link>
                 <Nav.Link as={Link} to="/checkout" className="px-3">Checkout</Nav.Link>

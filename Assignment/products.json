@@ -121,6 +121,17 @@
       "avatar": null,
       "secretQuestion": "pet",
       "secretAnswer": "Milo"
+    },
+    {
+      "id": "1756181587446",
+      "username": "",
+      "email": "maingan@gmail.com",
+      "password": "",
+      "role": "user",
+      "wishlist": [],
+      "avatar": null,
+      "secretQuestion": "",
+      "secretAnswer": ""
     }
   ],
   "carts": [

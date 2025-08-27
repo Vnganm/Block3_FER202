@@ -23,7 +23,7 @@ const Login = () => {
       if (user) {
         console.log('Logged in user:', user); // Debug user được tìm thấy
         console.log('User role from API:', user.role); // Debug role từ API
-        // Make sure we're passing the complete user object including role
+
         const userToLogin = {
           id: user.id,
           username: user.username,
@@ -88,9 +88,7 @@ const Login = () => {
             <Button variant="primary" type="submit" className="w-100 mb-3">
               Đăng nhập
             </Button>
-            <Button variant="warning" onClick={clearLocalStorage} className="w-100">
-              Clear LocalStorage (Debug)
-            </Button>
+
           </Form>
           {showError && (
             <Toast

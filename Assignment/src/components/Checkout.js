@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
 import { useCartState, useCartDispatch } from '../context/CartContext';
+import { useAuthState } from '../context/AuthContext';
 import { Table, Button, Container, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -10,7 +11,7 @@ const Checkout = () => {
   const { items: carts } = useCartState();
   const cartDispatch = useCartDispatch();
   const { items: products } = useSelector(state => state.products);
-  const user = useSelector(state => state.auth.user);
+  const { user } = useAuthState();
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -26,22 +27,59 @@ const Checkout = () => {
   };
 
   const handleCheckout = async () => {
-    const order = {
-      id: Date.now().toString(),
-      userId: user.id,
-      items: userCarts.map(item => ({
-        productId: item.productId,
-        quantity: item.quantity
-      })),
-      total: getTotal(),
-      date: new Date().toISOString()
-    };
-    await axios.post('http://localhost:3001/orders', order);
-    cartDispatch({ type: 'CLEAR_CART' });
-    alert('Đặt hàng thành công!');
+    try {
+      // Kiểm tra xem còn đủ số lượng sản phẩm không
+      for (const cartItem of userCarts) {
+        const product = products.find(p => p.id === cartItem.productId);
+        if (!product || cartItem.quantity > product.quantity) {
+          alert(`Sản phẩm ${product?.name || 'Unknown'} không đủ số lượng!`);
+          return;
+        }
+      }
+
+      const order = {
+        id: Date.now().toString(),
+        userId: user.id,
+        items: userCarts.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity
+        })),
+        total: getTotal(),
+        date: new Date().toISOString()
+      };
+
+      // Tạo đơn hàng
+      const orderResponse = await axios.post('http://localhost:3001/orders', order);
+
+      if (orderResponse.status === 201 || orderResponse.status === 200) {
+        // Cập nhật số lượng sản phẩm
+        for (const item of order.items) {
+          const product = products.find(p => p.id === item.productId);
+          if (product) {
+            await axios.patch(`http://localhost:3001/products/${product.id}`, {
+              quantity: product.quantity - item.quantity
+            });
+          }
+        }
+
+        // Xóa giỏ hàng
+        cartDispatch({ type: 'CLEAR_CART' });
+        alert('Đặt hàng thành công!');
+        window.location.href = '/'; // Chuyển về trang chủ
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!');
+    }
   };
 
-  if (user?.role !== 'user') return <Alert variant="warning">Chỉ dành cho user.</Alert>;
+  if (!user?.id) {
+    return (
+      <Container className="mt-4">
+        <Alert variant="warning">Vui lòng đăng nhập để thanh toán.</Alert>
+      </Container>
+    );
+  }
 
   return (
     <Container className="mt-4">

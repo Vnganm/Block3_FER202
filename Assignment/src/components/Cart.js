@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
 import { useCartState, useCartDispatch } from '../context/CartContext';
+import { useAuthState } from '../context/AuthContext';
 import { Table, Button, Container, Form, Alert, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +12,7 @@ const Cart = () => {
   const { items: carts } = useCartState();
   const cartDispatch = useCartDispatch();
   const { items: products } = useSelector(state => state.products);
-  const user = useSelector(state => state.auth.user);
+  const { user } = useAuthState();
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -22,9 +23,20 @@ const Cart = () => {
 
   const userCarts = carts.filter(item => item.userId === user?.id);
 
-  const handleUpdate = (id, newQuantity, productId, oldQuantity) => {
+  const handleUpdate = async (id, newQuantity, productId, oldQuantity) => {
     if (newQuantity > 0) {
-      cartDispatch({ type: 'UPDATE_QTY', payload: { id, qty: newQuantity } });
+      try {
+        // Kiểm tra số lượng sản phẩm có sẵn
+        const product = products.find(p => p.id === productId);
+        if (product && newQuantity <= product.quantity) {
+          cartDispatch({ type: 'UPDATE_QTY', payload: { id, qty: newQuantity } });
+        } else {
+          alert('Số lượng yêu cầu vượt quá số lượng có sẵn!');
+        }
+      } catch (error) {
+        console.error('Error updating cart:', error);
+        alert('Không thể cập nhật số lượng. Vui lòng thử lại!');
+      }
     }
   };
 
@@ -61,7 +73,13 @@ const Cart = () => {
     }
   };
 
-  if (user?.role !== 'user') return <Alert variant="warning">Chỉ dành cho user.</Alert>;
+  if (!user?.id) {
+    return (
+      <Container className="mt-4">
+        <Alert variant="warning">Vui lòng đăng nhập để xem giỏ hàng.</Alert>
+      </Container>
+    );
+  }
 
   return (
     <Container className="mt-4">

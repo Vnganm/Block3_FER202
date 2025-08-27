@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Fashion Shop - React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Hướng dẫn cài đặt và chạy
 
-## Available Scripts
+### 1. Cài đặt dependencies
+```bash
+npm install
+```
 
-In the project directory, you can run:
+### 2. Cài đặt JSON Server (nếu chưa có)
+```bash
+npm install -g json-server
+```
 
-### `npm start`
+### 3. Chạy JSON Server (Terminal 1)
+```bash
+json-server --watch products.json --port 3001
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 4. Chạy React App (Terminal 2)
+```bash
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tài khoản test
 
-### `npm test`
+### Admin Account:
+- **Username:** admin
+- **Password:** admin
+- **Role:** admin
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### User Account:
+- **Username:** user  
+- **Password:** user
+- **Role:** user
 
-### `npm run build`
+### User Account 2:
+- **Username:** nganv
+- **Password:** 123456
+- **Role:** user
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Debug Role Issues
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Nếu gặp vấn đề với role, hãy:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Clear localStorage:** Nhấn nút "Clear LocalStorage (Debug)" trong trang đăng nhập
+2. **Kiểm tra Console:** Mở Developer Tools (F12) và xem console logs
+3. **Kiểm tra API:** Truy cập http://localhost:3001/users để xem dữ liệu users
 
-### `npm run eject`
+## Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- ✅ Đăng nhập/Đăng ký với phân quyền role
+- ✅ Hiển thị role trong header (debug mode)
+- ✅ Phân quyền admin/user cho các chức năng
+- ✅ Quản lý sản phẩm (admin)
+- ✅ Giỏ hàng và thanh toán (user)
+- ✅ Wishlist (user)
+- ✅ Responsive design với Bootstrap
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Cấu trúc dự án
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+src/
+├── components/          # React components
+├── context/            # React Context (Auth, Cart, Wishlist)
+├── redux/              # Redux store và slices
+└── App.js              # Main app component
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Troubleshooting
 
-## Learn More
+### Vấn đề thường gặp:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Role không hiển thị đúng:**
+   - Clear localStorage
+   - Kiểm tra console logs
+   - Đảm bảo JSON Server đang chạy
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. **API không hoạt động:**
+   - Kiểm tra JSON Server có chạy trên port 3001
+   - Kiểm tra file products.json có đúng format
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+3. **React app không start:**
+   - Kiểm tra port 3000 có bị chiếm không
+   - Chạy `npm install` lại

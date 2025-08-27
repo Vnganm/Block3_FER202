@@ -6,17 +6,31 @@ export const fetchCarts = createAsyncThunk('carts/fetchCarts', async () => {
   return res.data;
 });
 
-export const addToCart = createAsyncThunk('carts/addToCart', async (product, { getState }) => {
-  const user = getState().auth.user;
-  await axios.patch(`http://localhost:3001/products/${product.id}`, {
-    quantity: product.quantity - 1
-  });
-  const res = await axios.post('http://localhost:3001/carts', {
-    productId: product.id,
-    quantity: 1,
-    userId: user.id
-  });
-  return res.data;
+export const addToCart = createAsyncThunk('carts/addToCart', async (cartItem, { getState }) => {
+  try {
+    // First check if the product exists in cart
+    const res = await axios.get('http://localhost:3001/carts');
+    const existingItem = res.data.find(
+      item => item.productId === cartItem.productId && item.userId === cartItem.userId
+    );
+
+    if (existingItem) {
+      // If exists, update quantity
+      const updatedItem = {
+        ...existingItem,
+        quantity: existingItem.quantity + cartItem.quantity
+      };
+      const updateRes = await axios.put(`http://localhost:3001/carts/${existingItem.id}`, updatedItem);
+      return updateRes.data;
+    } else {
+      // If not exists, create new
+      const addRes = await axios.post('http://localhost:3001/carts', cartItem);
+      return addRes.data;
+    }
+  } catch (error) {
+    console.error('Error in addToCart:', error);
+    throw error;
+  }
 });
 
 export const addToWishlist = createAsyncThunk('carts/addToWishlist', async (productId, { getState, dispatch }) => {

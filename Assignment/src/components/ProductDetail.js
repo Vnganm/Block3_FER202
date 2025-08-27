@@ -57,22 +57,46 @@ const ProductDetail = () => {
     setTimeout(() => setShowToast(false), 3000);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!user) {
       showToastMessageHandler('Vui lòng đăng nhập để thêm vào giỏ hàng');
       const redirectUri = `${location.pathname}${location.search}`;
       setTimeout(() => window.location.href = `/login?redirect_uri=${encodeURIComponent(redirectUri)}`, 1500);
       return;
     }
+    
     if (!product || product.quantity <= 0) {
       showToastMessageHandler('Sản phẩm đã hết hàng!');
       return;
     }
-    dispatch(addToCart({ ...product, quantity: 1 }))
-      .then(() => {
+
+    try {
+      const cartItem = {
+        id: Date.now().toString(), // unique ID for cart item
+        productId: product.id,
+        userId: user.id,
+        quantity: 1,
+        price: parseInt(product.currentPrice)
+      };
+
+      const response = await fetch('http://localhost:3001/carts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cartItem),
+      });
+
+      if (response.ok) {
+        dispatch(addToCart(cartItem));
         showToastMessageHandler('Đã thêm vào giỏ hàng!');
-      })
-      .catch(() => showToastMessageHandler('Không thể thêm vào giỏ hàng!'));
+      } else {
+        throw new Error('Failed to add to cart');
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      showToastMessageHandler('Không thể thêm vào giỏ hàng!');
+    }
   };
 
   const handleWishlistAction = () => {
