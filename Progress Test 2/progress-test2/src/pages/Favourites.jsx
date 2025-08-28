@@ -9,14 +9,14 @@ export default function Favourites() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      minHeight: '100vh', 
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh',
       backgroundColor: '#f8f9fa',
       width: '100%',
       margin: 0,
-      padding: 0 
+      padding: 0
     }}>
       {/* Main Content */}
       <main style={{
@@ -31,7 +31,7 @@ export default function Favourites() {
           ) : (
             <Row className="g-4">
               {favourites.map(item => (
-                <Col key={item.id} md={4}>
+                <Col key={item.id} md={3}>
                   <Card>
                     <Card.Img variant="top" src={item.image} alt={item.name} style={{ height: '150px', objectFit: 'cover' }} />
                     <Card.Body>
@@ -44,6 +44,10 @@ export default function Favourites() {
               ))}
             </Row>
           )}
+
+          <Button variant="secondary" onClick={() => navigate('/products')} className="mt-4">Back to Products</Button>
+
+
         </Container>
       </main>
     </div>

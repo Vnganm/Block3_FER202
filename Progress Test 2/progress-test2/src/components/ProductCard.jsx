@@ -5,9 +5,18 @@ import { FaEye, FaCartPlus, FaHeart } from 'react-icons/fa';
 import { formatPrice, assetUrl } from '../utils/format';
 import { useCart } from '../Context/CartContext';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onAddToCart, onAddToFavourites }) => {
   const navigate = useNavigate();
-  const { addToCart, addToFavourites } = useCart();
+  const { favourites } = useCart();
+
+  const isFavourite = favourites.some(item => item.id === product.id);
+  const handleFavourite = () => {
+    if (isFavourite) {
+      navigate('/favourites');
+    } else {
+      onAddToFavourites();
+    }
+  };
 
   return (
     <Card className="h-100 shadow-sm product-card">
@@ -40,15 +49,15 @@ const ProductCard = ({ product }) => {
             variant="success"
             size="sm"
             className="flex-fill"
-            onClick={() => addToCart(product)}
+            onClick={onAddToCart}
           >
             <FaCartPlus className="me-1" /> Add to Cart
           </Button>
           <Button
-            variant="outline-danger"
+            variant={isFavourite ? 'danger' : 'outline-danger'}
             size="sm"
             className="flex-fill"
-            onClick={() => addToFavourites(product)}
+            onClick={handleFavourite}
           >
             <FaHeart className="me-1" /> Favourite
           </Button>
